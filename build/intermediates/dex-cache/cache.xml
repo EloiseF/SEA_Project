@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="utf-8"?>
+<items version="2" >
+
+    <item
+        jar="D:\AndroidProjects\SEA_Projet\app\libs\bolts-android-1.1.4.jar"
+        jumboMode="false"
+        revision="21.1.1"
+        sha1="129874135e6081269ace2312092031558865de12">
+        <dex dex="D:\AndroidProjects\SEA_Projet\app\build\intermediates\pre-dexed\debug\bolts-android-1.1.4-7f76072dedef370205c12a8e97f2f5318eed7734.jar" />
+    </item>
+    <item
+        jar="D:\AndroidProjects\SEA_Projet\app\libs\ParseCrashReporting-1.9.0.jar"
+        jumboMode="false"
+        revision="21.1.1"
+        sha1="f42d74ec610e2961c8c8a56dffcd7485930b0e91">
+        <dex dex="D:\AndroidProjects\SEA_Projet\app\build\intermediates\pre-dexed\debug\ParseCrashReporting-1.9.0-de5193deed25409789c36e27b5a7ff3959db7760.jar" />
+    </item>
+    <item
+        jar="D:\AndroidProjects\SEA_Projet\app\libs\Parse-1.9.0.jar"
+        jumboMode="false"
+        revision="21.1.1"
+        sha1="5811138d4e6cb9d45030e133ef1a61b935154c3a">
+        <dex dex="D:\AndroidProjects\SEA_Projet\app\build\intermediates\pre-dexed\debug\Parse-1.9.0-4d6f6a41b7d8445ba37cee1db150b9575667f01d.jar" />
+    </item>
+    <item
+        jar="D:\AndroidProjects\SEA_Projet\app\libs\bolts-android-1.1.4-javadoc.jar"
+        jumboMode="false"
+        revision="21.1.1"
+        sha1="f5dd6492c539679411fa30818320b737c410158f">
+        <dex dex="D:\AndroidProjects\SEA_Projet\app\build\intermediates\pre-dexed\debug\bolts-android-1.1.4-javadoc-504b5ebd432ba8a9d073e94f19ab6c94d4f8f435.jar" />
+    </item>
+
+</items>
