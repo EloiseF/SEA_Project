@@ -35,10 +35,6 @@ public class Archer extends ParseObject {
         return getString("Prenom");
     }
 
-    public String getNiveau(){
-        return getString("Niveau");
-    }
-
     public String getLicence(){
         return getString("Licence");
     }
@@ -69,10 +65,6 @@ public class Archer extends ParseObject {
 
     public void setPrenom(String prenom){
         put("Prenom", prenom);
-    }
-
-    public void setNiveau(String niveau){
-        put("Niveau", niveau);
     }
 
     public void setLicence(String licence){

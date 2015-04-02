@@ -2,9 +2,9 @@ package fr.cnam.model;
 
 import com.parse.*;
 
-@ParseClassName("Resultats")
-public class Resultats extends ParseObject {
-    public Resultats() {
+@ParseClassName("Volee")
+public class Volee extends ParseObject {
+    public Volee() {
         // A default constructor is required.
     }
 
@@ -20,20 +20,8 @@ public class Resultats extends ParseObject {
         return getString("Blason");
     }
 
-    public String getVolee(){
-        return getString("Volee");
-    }
-
-    public String getStatutF1(){
-        return getString("StatutF1");
-    }
-
-    public String getStatutF2(){
-        return getString("StatutF2");
-    }
-
-    public String getStatutF3(){
-        return getString("StatutF3");
+    public Number getVolee(){
+        return getNumber("NumVolee");
     }
 
     public Number getFleche1(){
@@ -48,6 +36,8 @@ public class Resultats extends ParseObject {
         return getNumber("Fleche3");
     }
 
+    public Number getTotalVolee(){ return getNumber("TotalVolee"); }
+
     public void setArcherObjectId(String archerObjectId){
         put("Archer", ParseObject.createWithoutData("Archer", archerObjectId));
     }
@@ -60,20 +50,8 @@ public class Resultats extends ParseObject {
         put("Blason", ParseObject.createWithoutData("Blason", blasonObjectId));
     }
 
-    public void setVolee(String volee){
-        put("Volee", volee);
-    }
-
-    public void setStatutF1(String statutF1){
-        put("StatutF1", statutF1);
-    }
-
-    public void setStatutF2(String statutF2){
-        put("StatutF2", statutF2);
-    }
-
-    public void setStatutF3(String statutF3){
-        put("StatutF3", statutF3);
+    public void setVolee(Number nVolee){
+        put("NumVolee", nVolee);
     }
 
     public void setFleche1(Number fleche1){
@@ -86,5 +64,15 @@ public class Resultats extends ParseObject {
 
     public void setFleche3(Number fleche3){
         put("Fleche3", fleche3);
+    }
+
+    public void computeTotalVolee() { put("TotalVolee", getFleche1().intValue() + getFleche2().intValue() + getFleche3().intValue()); }
+
+    public void putVolee(Number f1, Number f2, Number f3)
+    {
+        setFleche1(f1);
+        setFleche2(f2);
+        setFleche3(f3);
+        computeTotalVolee();
     }
 }

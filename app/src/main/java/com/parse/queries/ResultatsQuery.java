@@ -2,25 +2,22 @@ package com.parse.queries;
 
 import com.parse.ParseException;
 
-import fr.cnam.model.Resultats;
+import fr.cnam.model.Volee;
 
 
 public class ResultatsQuery {
     public void sauvegarder()
     {
-        Resultats resultats = new Resultats();
+        Volee volee = new Volee();
         //resultats.setEvenementObjectId();
         //resultats.setArcherObjectId();
         //resultats.setBlasonObjectId();
-        resultats.setVolee("1");
-        resultats.setFleche1(9);
-        resultats.setFleche2(10);
-        resultats.setFleche3(3);
-        resultats.setStatutF1("OK");
-        resultats.setStatutF2("M");
-        resultats.setStatutF3("P");
+        volee.setVolee(1);
+        volee.setFleche1(9);
+        volee.setFleche2(10);
+        volee.setFleche3(3);
         try {
-            resultats.save();
+            volee.save();
         } catch (ParseException e)
         {
             //System.out.println(e.getMessage());
