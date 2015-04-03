@@ -8,16 +8,12 @@ public class Volee extends ParseObject {
         // A default constructor is required.
     }
 
-    public String getArcherObjectId(){
-        return getString("Archer");
+    public Archer getArcher(){
+        return (Archer) getParseObject("Archer");
     }
 
-    public String getEvenementObjectId(){
-        return getString("Evenement");
-    }
-
-    public String getBlasonObjectId(){
-        return getString("Blason");
+    public Evenement getEvenement(){
+        return (Evenement) getParseObject("Evenement");
     }
 
     public Number getVolee(){
@@ -38,16 +34,12 @@ public class Volee extends ParseObject {
 
     public Number getTotalVolee(){ return getNumber("TotalVolee"); }
 
-    public void setArcherObjectId(String archerObjectId){
-        put("Archer", ParseObject.createWithoutData("Archer", archerObjectId));
+    public void setArcher(Archer archer){
+        put("Archer", archer);
     }
 
-    public void setEvenementObjectId(String evenementObjectId){
-        put("Evenement", ParseObject.createWithoutData("Evenement", evenementObjectId));
-    }
-
-    public void setBlasonObjectId(String blasonObjectId){
-        put("Blason", ParseObject.createWithoutData("Blason", blasonObjectId));
+    public void setEvenement(Evenement evenement){
+        put("Evenement", evenement);
     }
 
     public void setVolee(Number nVolee){
@@ -68,11 +60,14 @@ public class Volee extends ParseObject {
 
     public void computeTotalVolee() { put("TotalVolee", getFleche1().intValue() + getFleche2().intValue() + getFleche3().intValue()); }
 
-    public void putVolee(Number f1, Number f2, Number f3)
-    {
+    public void putScoresVolee(Number f1, Number f2, Number f3)  {
         setFleche1(f1);
         setFleche2(f2);
         setFleche3(f3);
         computeTotalVolee();
+    }
+
+    public String toString(){
+        return getObjectId() + "; " + getArcher().getPrenom() + " " + getArcher().getNom() + " a fait " + getTotalVolee() + " points sur sa volée " + getVolee();
     }
 }

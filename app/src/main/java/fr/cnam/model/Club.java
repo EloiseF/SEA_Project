@@ -2,6 +2,8 @@ package fr.cnam.model;
 
 import com.parse.*;
 
+import fr.cnam.business.ParseQueries;
+
 @ParseClassName("Club")
 public class Club extends ParseObject {
     public Club() {
@@ -29,8 +31,12 @@ public class Club extends ParseObject {
         return getString("Identifiant");
     }
 
-    public String getPresidentObjectId(){
-        return getString("President");
+    public Archer getPresident(){
+        return (Archer) getParseObject("President");
+    }
+
+    public void setObjectId(String objectId){
+        put("objectId", objectId);
     }
 
     public void setNom(String nom){
@@ -45,8 +51,11 @@ public class Club extends ParseObject {
         put("Identifiant", identifiant);
     }
 
+    public void setPresident(Archer president ){
+        put("President", president);
+    }
 
-    public void setPresidentObjectId( String presidentObjectId ){
-        put("President", ParseObject.createWithoutData("Archer", presidentObjectId));
+    public String toString(){
+        return getObjectId() + "; " + getNom() + " / " + getIdentifiant();
     }
 }

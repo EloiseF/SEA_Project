@@ -7,6 +7,7 @@ import com.parse.queries.*;
 import android.util.Log;
 
 import android.app.Application;
+import android.widget.Toast;
 
 import java.nio.channels.NotYetConnectedException;
 import java.util.Calendar;
@@ -15,51 +16,20 @@ import java.util.Date;
 
 public class ArcheryFollows extends Application {
 
-    private static ArcherQuery aq = new ArcherQuery();
-    private static ArcQuery arcq = new ArcQuery();
-    private static ClubQuery cq = new ClubQuery();
-    private static EvenementQuery eq = new EvenementQuery();
-    private static ParticipantsQuery pq = new ParticipantsQuery();
-    private static ResultatsQuery rq = new ResultatsQuery();
     private static ParseQueries parse = new ParseQueries();
 
     @Override
     public void onCreate() {
         super.onCreate();
 
-        // Initialize Crash Reporting.
-        ParseCrashReporting.enable(this);
-
-        // Enable Local Datastore.
-        Parse.enableLocalDatastore(this);
-
-        //Enregistrer les sous-classes
-        ParseObject.registerSubclass(Archer.class);
-        ParseObject.registerSubclass(Arc.class);
-        ParseObject.registerSubclass(Club.class);
-        ParseObject.registerSubclass(Evenement.class);
-        ParseObject.registerSubclass(Participants.class);
-        ParseObject.registerSubclass(Volee.class);
-
-        // Add your initialization code here
-        Parse.initialize(this, "PhyOxGjACcVSyOnIQUuwSjs2R9ORvdeWVciTHbty", "wgEpJtIAQYFz8yytcFICVv3u2fgpVmnDF5WjXeQk");
-
-
-        ParseUser.enableAutomaticUser();
-        ParseUser.getCurrentUser().saveInBackground();
-        ParseACL defaultACL = new ParseACL();
-        // Optionally enable public read access.
-        defaultACL.setPublicReadAccess(true);
-        defaultACL.setPublicWriteAccess(true);
-        ParseACL.setDefaultACL(defaultACL, true);
-
-        String identifiantClub = "67203001";
+        parse.InitParse(this);
 
         Date today = Calendar.getInstance().getTime();
         String dateEvent = Utils.getDateInFormat(today);
 
         String distance = "18";
 
+        // Test d'ajout d'un archer
         Archer edelzongle = new Archer();
         edelzongle.setLicence("8015420G");
         edelzongle.setNom("DELZONGLE");
@@ -68,82 +38,67 @@ public class ArcheryFollows extends Application {
         edelzongle.setDateDeNaissance(new Date());
         edelzongle.setMotDePasse(Utils.MD5("test"));
         edelzongle = parse.AddArcher(edelzongle);
+        Log.i("ArcheryFollows", edelzongle.toString());
 
-        bArc(edelzongle.getLicence());
-
+        // Test d'ajout d'un club ayant pour président l'archer créé précédemment
         Club myClub = new Club();
         myClub.setNom("AHE");
         myClub.setIdentifiant("AHE67O");
         myClub.setLieu("Obernai");
-        myClub.setPresidentObjectId(aq.retrieveArcherIdByLicence(edelzongle.getLicence()));
-        parse.AddClub(myClub);
+        myClub.setPresident(edelzongle);
+        myClub = parse.AddClub(myClub);
+        Log.i("ArcheryFollows", myClub.toString());
 
-        dEvenement(identifiantClub);
-        fParticipants(edelzongle.getLicence(), dateEvent, identifiantClub);
-        gResultats(edelzongle.getLicence(), dateEvent, identifiantClub, distance);
+        edelzongle.setClub(myClub);
+        parse.EditArcher(edelzongle);
 
-        hAuthenticate(edelzongle.getLicence(), "test");
-
-        parse.GetEvenement("20150402", "AHE67O");
-
-    }
-
-    public void bArc(String licenceArcher)
-    {
-        Arc myArc = new Arc();
-        myArc.setPuissance("22");
-        myArc.setTaille("68");
-        myArc.setType("Classique");
-        myArc.setProprietaireObjectId(aq.retrieveArcherIdByLicence(licenceArcher));
-        save(myArc);
-    }
-
-    public void dEvenement(String identifiantClub)
-    {
+        // Test de création d'un Evènement
         Date sysdate_as_date = Calendar.getInstance().getTime();
-        String dateEvent = Utils.getDateInFormat(sysdate_as_date);
-
         Evenement myEvent = new Evenement();
-        myEvent.setNom("MyEvent");
+        myEvent.setNom("Concours interne");
         myEvent.setDateEvenement(sysdate_as_date);
         myEvent.setDateEvent(dateEvent);
-        myEvent.setClubObjectId(cq.retrieveClubIdByIdentifiant(identifiantClub));
+        myEvent.setOrganisateur(myClub);
+        myEvent = parse.AddEvenement(myEvent);
+        Log.i("ArcheryFollows", myEvent.toString());
 
-        save(myEvent);
-    }
+        // Test d'inscription d'un participant à un évènement
 
-    public void fParticipants(String licenceArcher, String dateEvent, String identifiantClub)
-    {
-        Participants myInscription = new Participants();
-        myInscription.setParticipantObjectId(aq.retrieveArcherIdByLicence(licenceArcher));
-        myInscription.setEvenementObjectId(eq.retrieveEventIdByCriterion(dateEvent, identifiantClub));
-        save(myInscription);
-    }
+        Participants participant = new Participants();
+        participant.setArcher(edelzongle);
+        participant.setEvenement(myEvent);
+        participant = parse.AddParticipants(participant);
+        Log.i("ArcheryFollows", participant.toString());
 
-    public void gResultats(String licenceArcher, String dateEvent, String identifiantClub, String distance)
-    {
+        // Test d'enregistremenet de deux volées
         Volee volee = new Volee();
-        volee.setEvenementObjectId(eq.retrieveEventIdByCriterion(dateEvent, identifiantClub));
-        volee.setArcherObjectId(aq.retrieveArcherIdByLicence(licenceArcher));
+        volee.setEvenement(myEvent);
+        volee.setArcher(edelzongle);
         volee.setVolee(1);
-        volee.putVolee(10, 10, 2);
-        save(volee);
+        volee.putScoresVolee(10, 10, 2);
+        volee = parse.AddVolee(volee);
+        Log.i("ArcheryFollows", volee.toString());
+
+        Volee volee2 = new Volee();
+        volee2.setEvenement(myEvent);
+        volee2.setArcher(edelzongle);
+        volee2.setVolee(2);
+        volee2.putScoresVolee(9, 9, 7);
+        volee2 = parse.AddVolee(volee2);
+        Log.i("ArcheryFollows", volee2.toString());
+
+        // Test de connexion
+        Log.i("ArcheryFollows", "User connected : " + parse.Login("8015420G", "test"));
+
+        // Test de suppression
+        parse.DeleteVolee(volee2);
+        parse.DeleteVolee(volee);
+        parse.DeleteParticipants(participant);
+        parse.DeleteEvenement(myEvent);
+        parse.DeleteClub(myClub);
+        parse.DeleteArcher(edelzongle);
+
     }
 
-    public void hAuthenticate(String licence, String password)
-    {
-        Log.d("auth", aq.authenticate(licence, password));
-    }
-
-    public void save(ParseObject item)
-    {
-        try
-        {
-            item.save();
-        }
-        catch (Exception e){
-            Log.e("Save Error", e.getMessage());
-        }
-    }
 }
 

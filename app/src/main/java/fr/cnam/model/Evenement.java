@@ -21,8 +21,8 @@ public class Evenement extends ParseObject {
         return getDate("DateEvenement");
     }
 
-    public String getOrganisateurObjectId(){
-        return getString("Organisateur");
+    public Club getOrganisateur(){
+        return (Club) getParseObject("Organisateur");
     }
 
     public void setObjectId(String objectId){
@@ -41,7 +41,11 @@ public class Evenement extends ParseObject {
         put("DateEvenement", dateEvenement);
     }
 
-    public void setClubObjectId( String clubObjectId ){
-        put("Organisateur", ParseObject.createWithoutData("Club", clubObjectId));
+    public void setOrganisateur( Club club ){
+        put("Organisateur", club);
+    }
+
+    public String toString(){
+        return getObjectId() + "; " + getNom() + " @ " + getDateEvent() + ", organisé par " + getOrganisateur().getNom();
     }
 }

@@ -8,19 +8,23 @@ public class Participants extends ParseObject {
         // A default constructor is required.
     }
 
-    public String getParticipantObjectId(){
-        return getString("Participant");
+    public Archer getParticipant(){
+        return (Archer) getParseObject("Participant");
     }
 
-    public String getEvenementObjectId(){
-        return getString("Evenement");
+    public Evenement getEvenement(){
+        return (Evenement) getParseObject("Evenement");
     }
 
-    public void setParticipantObjectId(String participantObjectId){
-        put("Participant", ParseObject.createWithoutData("Archer", participantObjectId));
+    public void setArcher(ParseObject participant){
+        put("Participant", participant);
     }
 
-    public void setEvenementObjectId(String evenementObjectId){
-        put("Evenement", ParseObject.createWithoutData("Evenement", evenementObjectId));
+    public void setEvenement(ParseObject evenement){
+        put("Evenement", evenement);
+    }
+
+    public String toString(){
+        return getObjectId() + "; " + getParticipant().getPrenom() + " " + getParticipant().getNom() + " participe à " + getEvenement().getNom();
     }
 }

@@ -20,6 +20,7 @@ import java.util.Date;
 import java.util.GregorianCalendar;
 import java.util.TimeZone;
 
+import fr.cnam.business.ParseQueries;
 import fr.cnam.model.*;
 
 
@@ -29,6 +30,7 @@ public class Connexion extends Activity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_connexion);
+        ParseQueries pq = new ParseQueries();
     }
 
 

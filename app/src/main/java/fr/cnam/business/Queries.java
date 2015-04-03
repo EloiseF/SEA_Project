@@ -1,5 +1,7 @@
 package fr.cnam.business;
 
+import java.util.ArrayList;
+
 import fr.cnam.model.*;
 
 /**
@@ -16,6 +18,7 @@ public interface Queries {
     //Gestion des clubs en BDD
     public Club AddClub(Club c);
     public Club GetClub(String id);
+    public ArrayList<Archer> GetMembres(Club c);
     public void EditClub(Club c);
     public void DeleteClub(Club c);
 
@@ -27,15 +30,18 @@ public interface Queries {
 
     //Gestion des participations en BDD
     public Participants AddParticipants(Participants p);
-    public Participants GetParticipants(String id);
+    public Participants GetParticipant(String licenceArcher, Evenement evenement);
+    public ArrayList<Participants> GetListeParticipants(Evenement evenement);
     public void EditParticipants(Participants p);
     public void DeleteParticipants(Participants p);
 
     //Gestion des résultats en BDD
     public Volee AddVolee(Volee v);
-    public Volee GetVolee(String id);
+    public Volee GetVolee(Evenement event, Archer participant, Number numVolee);
     public void EditVolee(Volee v);
     public void DeleteVolee(Volee v);
 
+    //Gestion de la connexion en BDD
+    public boolean Login(String licenceArcher, String password);
 
 }

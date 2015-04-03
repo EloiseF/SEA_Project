@@ -26,7 +26,6 @@ public class Archer extends ParseObject {
     // MotDePasse String
     // AppartientAClub Pointer<Club>
 
-
     public String getNom(){
         return getString("Nom");
     }
@@ -51,12 +50,12 @@ public class Archer extends ParseObject {
         return getDate("DateDeNaissance");
     }
 
-    public String getClubObjectId(){
-        return getString("AppartientAClub");
+    public Club getClub(){
+        return (Club) getParseObject("AppartientAClub");
     }
 
-    public void setObjectId(String objetcId){
-        put("objectId", objetcId);
+    public void setObjectId(String objectId){
+        put("objectId", objectId);
     }
 
     public void setNom(String nom){
@@ -83,8 +82,12 @@ public class Archer extends ParseObject {
         put("DateDeNaissance", dateDeNaissance);
     }
 
-    public void setClubObjectId( String clubObjectId ){
-        put("AppartientAClub", ParseObject.createWithoutData("Club", clubObjectId));
+    public void setClub(Club club){
+        put("AppartientAClub", club);
+    }
+
+    public String toString(){
+        return getObjectId() + "; Licence : " + getLicence() + " / " + getNom() + " " + getPrenom();
     }
 
     /*public ParseUser getOwner() {
